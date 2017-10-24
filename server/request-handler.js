@@ -11,9 +11,9 @@ this file and include it in basic-server.js so that it actually works.
 *Hint* Check out the node module documentation at http://nodejs.org/api/modules.html.
 
 **************************************************************/
-const messages = []
-  // {username: 'user1', message: 'message1'},
-  // {username: 'user2', message: 'message2'}
+const messages = [];
+// {username: 'user1', message: 'message1'},
+// {username: 'user2', message: 'message2'}
 
 
 var defaultCorsHeaders = {
@@ -41,61 +41,61 @@ var requestHandler = function(request, response) {
 
   console.log('Serving request type ' + request.method + ' for url ' + request.url);
   
-    // The outgoing status.
-    var statusCode = 200;
+  // The outgoing status.
+  var statusCode = 200;
   
-    // See the note below about CORS headers.
-    var headers = defaultCorsHeaders;
+  // See the note below about CORS headers.
+  var headers = defaultCorsHeaders;
   
-    // Tell the client we are sending them plain text.
-    // You will need to change this if you are sending something
-    // other than plain text, like JSON or HTML.
-    headers['Content-Type'] = 'text/plain';
-    // headers['Content-Type'] = 'application/json';
+  // Tell the client we are sending them plain text.
+  // You will need to change this if you are sending something
+  // other than plain text, like JSON or HTML.
+  headers['Content-Type'] = 'text/plain';
+  // headers['Content-Type'] = 'application/json';
   
-    // .writeHead() writes to the request line and headers of the response,
-    // which includes the status and all headers.
+  // .writeHead() writes to the request line and headers of the response,
+  // which includes the status and all headers.
   
-    // Make sure to always call response.end() - Node may not send
-    // anything back to the client until you do. The string you pass to
-    // response.end() will be the body of the response - i.e. what shows
-    // up in the browser.
-    //
-    // Calling .end "flushes" the response's internal buffer, forcing
-    // node to actually send all the data over to the client.
+  // Make sure to always call response.end() - Node may not send
+  // anything back to the client until you do. The string you pass to
+  // response.end() will be the body of the response - i.e. what shows
+  // up in the browser.
+  //
+  // Calling .end "flushes" the response's internal buffer, forcing
+  // node to actually send all the data over to the client.
 
 
 
   if (request.method === 'GET') {
     if (request.url === '/classes/messages') {
       headers['Content-Type'] = 'application/json';
-      response.writeHead(statusCode, headers)
-      const resBody = JSON.stringify({results: messages })
-      response.end(resBody)
+      response.writeHead(statusCode, headers);
+      const resBody = JSON.stringify({results: messages });
+      response.end(resBody);
     } else {
-      statusCode = 404
+      statusCode = 404;
       response.writeHead(statusCode, headers); 
-      response.end()
+      response.end();
     }
 
 
   } else if (request.method === 'POST') {
     if (request.url === '/classes/messages') {
-      statusCode = 201
+      statusCode = 201;
       response.writeHead(statusCode, headers);
-      request.setEncoding = 'utf8'
-      let data = ''
+      request.setEncoding = 'utf8';
+      let data = '';
       request
         .on('data', (chunk) => { 
-          console.log('chunk is ', chunk)
-          data += chunk
-        })
+          console.log('chunk is ', chunk);
+          data += chunk;
+        });
       request
         .on('end', () => { 
-          console.log('final chunk is ', data)
-          messages.push(JSON.parse(data))
-          response.end()
-        })
+          console.log('final chunk is ', data);
+          messages.push(JSON.parse(data));
+          response.end();
+        });
     }
   }
 };
@@ -111,5 +111,5 @@ var requestHandler = function(request, response) {
 // client from this domain by setting up static file serving.
 
 
-module.exports = requestHandler
-module.exports.requestHandler = requestHandler
+module.exports = requestHandler;
+module.exports.requestHandler = requestHandler;
